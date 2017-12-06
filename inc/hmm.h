@@ -1,3 +1,6 @@
+#ifndef __hmm_h__
+#define __hmm_h__
+
 #define N_STATE		3
 #define N_PDF		10
 #define N_DIMENSION	39
@@ -3421,3 +3424,5 @@ hmmType phones[] = {
     }
   },
 };
+
+#endif
