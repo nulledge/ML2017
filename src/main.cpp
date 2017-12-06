@@ -1,7 +1,7 @@
 #include "hmm.h"
 #include "util.h"
 #include "dictionary.h"
-#include "probability.h"
+#include "unigram.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -27,8 +27,12 @@ int main(void) {
         cout << endl;
     }
 
-    auto p = Probability(1.2, 2);
-    cout << p.scale << "e" << p.exp << endl;
+    cout << endl;
+
+    auto unigram = Unigram::Instance();
+    for(auto it = unigram->_data.begin(); it != unigram->_data.end(); it++) {
+        cout << (*it).first << ": " << tab << (*it).second.scale << "e" << (*it).second.exp << endl;
+    }
     
     return 0;
 }
