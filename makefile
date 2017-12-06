@@ -5,8 +5,11 @@ DAT_DIR = dat
 SRC_DIR = src
 BIN_DIR = bin
 
-build: main dictionary probability unigram
-	$(CPPC) $(BIN_DIR)/main.o $(BIN_DIR)/unigram.o $(BIN_DIR)/probability.o $(BIN_DIR)/dictionary.o -o hmm.out
+build: main dictionary probability unigram bigram
+	$(CPPC) $(BIN_DIR)/main.o $(BIN_DIR)/bigram.o $(BIN_DIR)/unigram.o $(BIN_DIR)/probability.o $(BIN_DIR)/dictionary.o -o hmm.out
+
+bigram: $(SRC_DIR)/bigram.cpp $(INC_DIR)/bigram.h $(BIN_DIR)
+	$(CPPC) -c $(SRC_DIR)/bigram.cpp -I$(INC_DIR) -o $(BIN_DIR)/bigram.o
 
 unigram: $(SRC_DIR)/unigram.cpp $(INC_DIR)/unigram.h $(BIN_DIR)
 	$(CPPC) -c $(SRC_DIR)/unigram.cpp -I$(INC_DIR) -o $(BIN_DIR)/unigram.o
