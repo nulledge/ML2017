@@ -13,7 +13,7 @@ typedef struct {
 } stateType;
 
 typedef struct {
-  char *name;
+  char const *name;
   float tp[N_STATE+2][N_STATE+2];
   stateType state[N_STATE];
 } hmmType;
