@@ -54,6 +54,14 @@ int main(void) {
         cout << from << tab << ">" << tab << to << tab << ":" << tab << prob.scale << "e" << prob.exp << endl;
     }
     cout << endl;
+
+    cout << "Test probability" << endl;
+    {
+        string str("-1.589671e+001");
+        Probability prob(str);
+        cout << str << tab << ">" << tab << prob.scale << "e" << prob.exp << endl;
+    }
+    cout << endl;
     
     return 0;
 }
