@@ -3,6 +3,7 @@
 #include "dictionary.h"
 #include "unigram.h"
 #include "bigram.h"
+#include "mfcc.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -62,6 +63,14 @@ int main(void) {
         cout << str << tab << ">" << tab << prob.scale << "e" << prob.exp << endl;
     }
     cout << endl;
+
+    cout << "Test MFCC" << endl;
+    {
+        MFCC mfcc("dat/tst/f/ak/44z5938.txt");
+        cout << mfcc._n_block << tab << mfcc._n_dimension << endl;
+        Probability& prob = mfcc._data[1][2];
+        cout << tab << prob.scale << "e" << prob.exp;
+    } cout << endl;
     
     return 0;
 }
