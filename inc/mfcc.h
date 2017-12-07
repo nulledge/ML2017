@@ -1,8 +1,6 @@
 #ifndef __mfcc_h__
 #define __mfcc_h__
 
-#include "probability.h"
-
 class MFCC {
 public:
     MFCC(void);
@@ -12,7 +10,7 @@ public:
 public:
     unsigned int _n_dimension;
     unsigned int _n_block;
-    Probability** _data;
+    long double** _data;
 };
 
 #endif

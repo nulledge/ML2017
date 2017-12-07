@@ -1,8 +1,6 @@
 #ifndef __cell_h__
 #define __cell_h__
 
-#include "probability.h"
-
 #include <vector>
 #include <map>
 #include <cstdlib>
@@ -15,8 +13,8 @@ public:
     ~Cell(void);
 
 public:
-    vector<pair<Cell*, Probability> > _link;
-    map<const unsigned int, pair<Cell*, Probability> > _log;
+    vector<pair<Cell*, long double> > _link;
+    map<const unsigned int, pair<Cell*, long double> > _log;
 };
 
 #endif

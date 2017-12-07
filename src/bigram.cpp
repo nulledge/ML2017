@@ -17,13 +17,13 @@ Bigram::~Bigram(void) {
 void Bigram::build(void) {
     string line;
     string from, to;
-    double probability;
+    long double prob;
 
     while(getline(_file, line)) {
         stringstream stream(line);
 
-        stream >> from >> to >> probability;
+        stream >> from >> to >> prob;
 
-        _data.push_back(make_tuple(from, to, Probability(probability, 0).norm()));
+        _data.push_back(make_tuple(from, to, prob));
     }
 }

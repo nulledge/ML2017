@@ -15,7 +15,7 @@ MFCC::MFCC(void)
 MFCC::MFCC(const char* path) {
     ifstream file(path);
     string line;
-    string probability;
+    long double prob;
 
     {
         getline(file, line);
@@ -23,9 +23,9 @@ MFCC::MFCC(const char* path) {
         stream >> _n_block >> _n_dimension;
     }
 
-    _data = (Probability**)malloc(sizeof(Probability*) * _n_block * _n_dimension);
-    for(unsigned int idx = 0; idx < _n_block; idx += 1) {
-        _data[idx] = (Probability*)malloc(sizeof(Probability) * _n_dimension);
+    _data = (long double**)malloc(sizeof(long double*) * _n_block * _n_dimension);
+    for(auto idx = 0U; idx < _n_block; idx += 1) {
+        _data[idx] = (long double*)malloc(sizeof(long double) * _n_dimension);
     }
 
     unsigned int idx_line = 0, idx_dimension = 0;
@@ -33,8 +33,8 @@ MFCC::MFCC(const char* path) {
         stringstream stream(line);
         idx_dimension = 0;
 
-        while(stream >> probability) {
-            _data[idx_line][idx_dimension] = Probability(probability);
+        while(stream >> prob) {
+            _data[idx_line][idx_dimension] = prob;
             idx_dimension += 1;
         }
 

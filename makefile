@@ -5,8 +5,8 @@ DAT_DIR = dat
 SRC_DIR = src
 BIN_DIR = bin
 
-build: main dictionary probability unigram bigram mfcc cell
-	$(CPPC) $(BIN_DIR)/main.o $(BIN_DIR)/cell.o $(BIN_DIR)/mfcc.o $(BIN_DIR)/bigram.o $(BIN_DIR)/unigram.o $(BIN_DIR)/probability.o $(BIN_DIR)/dictionary.o -o hmm.out
+build: main dictionary unigram bigram mfcc cell
+	$(CPPC) $(BIN_DIR)/main.o $(BIN_DIR)/cell.o $(BIN_DIR)/mfcc.o $(BIN_DIR)/bigram.o $(BIN_DIR)/unigram.o $(BIN_DIR)/dictionary.o -o hmm.out
 
 cell: $(SRC_DIR)/cell.cpp $(INC_DIR)/cell.h $(BIN_DIR)
 	$(CPPC) -c $(SRC_DIR)/cell.cpp -I$(INC_DIR) -o $(BIN_DIR)/cell.o
@@ -19,9 +19,6 @@ bigram: $(SRC_DIR)/bigram.cpp $(INC_DIR)/bigram.h $(BIN_DIR)
 
 unigram: $(SRC_DIR)/unigram.cpp $(INC_DIR)/unigram.h $(BIN_DIR)
 	$(CPPC) -c $(SRC_DIR)/unigram.cpp -I$(INC_DIR) -o $(BIN_DIR)/unigram.o
-
-probability: $(SRC_DIR)/probability.cpp $(INC_DIR)/probability.h $(BIN_DIR)
-	$(CPPC) -c $(SRC_DIR)/probability.cpp -I$(INC_DIR) -o $(BIN_DIR)/probability.o
 
 dictionary: $(SRC_DIR)/dictionary.cpp $(INC_DIR)/dictionary.h $(BIN_DIR)
 	$(CPPC) -c $(SRC_DIR)/dictionary.cpp -I$(INC_DIR) -o $(BIN_DIR)/dictionary.o

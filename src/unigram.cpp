@@ -17,13 +17,13 @@ Unigram::~Unigram(void) {
 void Unigram::build(void) {
     string line;
     string word;
-    double probability;
+    long double prob;
 
     while(getline(_file, line)) {
         stringstream stream(line);
 
-        stream >> word >> probability;
+        stream >> word >> prob;
 
-        _data.push_back(make_pair(word, Probability(probability, 0).norm()));
+        _data.push_back(make_pair(word, prob));
     }
 }

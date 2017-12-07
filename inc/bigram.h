@@ -1,8 +1,6 @@
 #ifndef __bigram_h__
 #define __bigram_h__
 
-#include "probability.h"
-
 #include <cstdlib>
 #include <string>
 #include <vector>
@@ -27,7 +25,7 @@ private:
     void build(void);
 
 public:
-    vector<tuple<string, string, Probability> > _data;
+    vector<tuple<string, string, long double> > _data;
 
 private:
     static const char* const _path;

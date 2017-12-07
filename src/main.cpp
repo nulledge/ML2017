@@ -5,7 +5,6 @@
 #include "bigram.h"
 #include "mfcc.h"
 #include "cell.h"
-#include "probability.h"
 
 #include <ctime>
 #include <iostream>
@@ -17,13 +16,19 @@ int main(void) {
     srand(time(NULL));
     cout << "Hello, World!" << endl;
 
-    auto rand_prob = []() {
-        return Probability(
-            (double)(rand() % 99) / 100.0
-        ).norm();
-    };
+    long double prob = 0.0;
+    long double pivot = -5.0;
+    long double base = 2.867e-7;
+    long double sum = 0;
+    long double delta = 1e-4;
 
-    cout << norm_dist(Probability(0.0), 0.0, 1.0).str() << endl;
+    while(pivot < prob) {
+        sum += norm_dist(pivot, 0, 1);
+        pivot += delta;
+    }
+    cout << base + sum * delta << endl;
+
+    cout << norm_dist(0, 0, 1) << endl;
 
     return 0;
 }

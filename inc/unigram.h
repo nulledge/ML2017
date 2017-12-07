@@ -1,8 +1,6 @@
 #ifndef __unigram_h__
 #define __unigram_h__
 
-#include "probability.h"
-
 #include <cstdlib>
 #include <string>
 #include <vector>
@@ -27,7 +25,7 @@ private:
     void build(void);
 
 public:
-    vector<pair<string, Probability> > _data;
+    vector<pair<string, long double> > _data;
 
 private:
     static const char* const _path;
