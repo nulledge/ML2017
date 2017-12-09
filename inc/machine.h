@@ -31,10 +31,11 @@ private:
     void build(void);
     void build_words(void);
     void build_unigram(void);
+    void build_bigram(void);
 
 public:
     unsigned int                        _begin, _end;
-    vector<pair<string, unsigned int> > _word;
+    vector<tuple<string, unsigned int> > _word;
     vector<Cell>                        _cells;
 };
 

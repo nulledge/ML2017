@@ -1,29 +1,28 @@
 #include "bigram.h"
 
 #include <sstream>
+#include <fstream>
 
 Bigram* Bigram::_instance = nullptr;
-const char * const Bigram::_path = "dat/bigram.txt";
 
 Bigram::Bigram(void) {
-    _file.open(_path);
-    build();
+    const auto      path = "dat/bigram.txt";
+    std::ifstream   file(path);
+    
+    std::string line;
+    std::string from, to;
+    long double prob;
+
+    while(getline(file, line)) {
+        std::stringstream stream(line);
+        stream >> from >> to >> prob;
+
+        BIGRAM_KEY      key(from, to);
+        BIGRAM_VALUE    value(prob);
+        
+        _data[key] = value;
+    }
 }
 Bigram::~Bigram(void) {
 
-}
-
-
-void Bigram::build(void) {
-    string line;
-    string from, to;
-    long double prob;
-
-    while(getline(_file, line)) {
-        stringstream stream(line);
-
-        stream >> from >> to >> prob;
-
-        _data.push_back(make_tuple(from, to, prob));
-    }
 }

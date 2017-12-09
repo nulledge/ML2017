@@ -12,7 +12,7 @@ namespace std {
 
 }
 
-static const unsigned int N_PHONES = sizeof(phones) / sizeof(hmmType);
+static const unsigned int N_PHONES = sizeof(pretrained_phones) / sizeof(hmmType);
 
 static long double norm_dist(long double prob, double mean, double var) {
     return exp(- pow(prob - mean, 2) / (2.0 * var) )

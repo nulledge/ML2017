@@ -21,7 +21,7 @@ typedef struct {
   stateType state[N_STATE];
 } hmmType;
 
-static hmmType phones[] = {
+static hmmType pretrained_phones[] = {
   { "f", // HMM
     { // transition probability
       { 0.000000e+000, 1.000000e+000, 0.000000e+000, 0.000000e+000, 0.000000e+000 },

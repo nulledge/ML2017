@@ -3,9 +3,10 @@
 
 #include <cstdlib>
 #include <string>
-#include <vector>
-#include <fstream>
-using namespace std;
+#include <map>
+
+#define BIGRAM_KEY      std::pair<std::string, std::string>
+#define BIGRAM_VALUE    long double
 
 class Bigram {
 public:
@@ -21,15 +22,8 @@ private:
     Bigram(void);
     ~Bigram(void);
 
-private:
-    void build(void);
-
 public:
-    vector<tuple<string, string, long double> > _data;
-
-private:
-    static const char* const _path;
-    ifstream _file;
+    std::map<BIGRAM_KEY, BIGRAM_VALUE> _data;
 };
 
 #endif

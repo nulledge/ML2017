@@ -1,30 +1,31 @@
 #include "dictionary.h"
 
+#include <fstream>
 #include <sstream>
 
 Dictionary* Dictionary::_instance = nullptr;
-const char * const Dictionary::_path = "dat/dictionary.txt";
 
 Dictionary::Dictionary(void) {
-    _file.open(_path);
-    build();
+    const auto      path = "dat/dictionary.txt";
+    std::ifstream   file(path);
+
+    std::string line;
+    while(getline(file, line)) {
+        std::stringstream   stream(line);
+        std::string         word;
+        DICTIONARY_KEY      key;
+        DICTIONARY_VALUE    value;
+
+        stream >> key;
+        while(stream >> word) {
+            value.push_back(word);
+        }
+
+        DICTIONARY_ENTITY   entity(make_pair(key, value));
+        _data.push_back(entity);
+    }
+
+    file.close();
 }
 Dictionary::~Dictionary(void) {
-    _file.close();
-}
-
-void Dictionary::build(void) {
-    string line;
-    string word, phoneme;
-
-    while(getline(_file, line)) {
-        stringstream stream(line);
-
-        stream >> word;
-        vector<string> vec_phones;
-        while(stream >> phoneme) {
-            vec_phones.push_back(phoneme);
-        }
-        _data.push_back(make_pair(word, vec_phones));
-    }
 }

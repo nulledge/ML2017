@@ -20,7 +20,7 @@ int main(void) {
     auto machine = Machine::Instance();
 
     cout << machine->_cells.size() << endl;
-
+/*
     for(auto it = machine->_word.begin(); it != machine->_word.end(); it++) {
         string      word;
         long double word_begin;
@@ -43,7 +43,7 @@ int main(void) {
                 continue;
             cout << to << tab << prob << endl;
         }
-    }
+    }*/
 
     return 0;
 }

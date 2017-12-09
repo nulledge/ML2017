@@ -1,29 +1,27 @@
 #include "unigram.h"
 
+#include <fstream>
 #include <sstream>
 
 Unigram* Unigram::_instance = nullptr;
-const char * const Unigram::_path = "dat/unigram.txt";
 
 Unigram::Unigram(void) {
-    _file.open(_path);
-    build();
+    const auto      path = "dat/unigram.txt";;
+    std::ifstream   file(path);
+
+    std::string     line, word;
+    long double     prob;
+
+    while(getline(file, line)) {
+        std::stringstream stream(line);
+        stream >> word >> prob;
+
+        UNIGRAM_KEY     key(word);
+        UNIGRAM_VALUE   value(prob);
+        _data[key] = value;
+    }
+    file.close();
 }
 Unigram::~Unigram(void) {
 
-}
-
-
-void Unigram::build(void) {
-    string line;
-    string word;
-    long double prob;
-
-    while(getline(_file, line)) {
-        stringstream stream(line);
-
-        stream >> word >> prob;
-
-        _data.push_back(make_pair(word, prob));
-    }
 }

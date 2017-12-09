@@ -19,35 +19,16 @@ Machine::~Machine(void) {
 void Machine::build(void) {
     build_words();
     build_unigram();
+    build_bigram();
+}
+
+void Machine::build_bigram(void) {
 }
 
 void Machine::build_unigram(void) {
-    auto uni = Unigram::Instance();
-
-    for(auto it = _word.begin(); it != _word.end(); it++) {
-        string      word;
-        long double word_begin;
-
-        tie(word, word_begin) = (*it);
-
-        for(auto it_inner = _cells[_begin]._link.begin(); it_inner != _cells[_begin]._link.end(); it_inner ++) {
-            auto to = (*it_inner).first;
-
-            if(to != word_begin)
-                continue;
-
-            for(auto it_uni = uni->_data.begin(); it_uni != uni->_data.end(); it_uni ++ ) {
-                if(strcmp((*it_uni).first.c_str(), word.c_str()) == 0) {
-                    (*it_inner).second = (*it_uni).second;
-                    break;
-                }
-            }
-        }
-    }
 }
 
 void Machine::build_words(void) {
-    auto dict = Dictionary::Instance();
 
     _cells.push_back(Cell());
     _cells.push_back(Cell());
@@ -55,13 +36,14 @@ void Machine::build_words(void) {
     _begin  = 0;
     _end    = 1;
 
-    for(auto it_word = dict->_data.begin(); it_word != dict->_data.end(); it_word ++) {
-        const string&           word        = (*it_word).first;
-        const vector<string>&   word_phones = (*it_word).second;
+    auto& dict = Dictionary::Instance()->_data;
+    for(auto it_dict = dict.begin(); it_dict != dict.end(); it_dict ++) {
+        const DICTIONARY_KEY&   word            = (*it_dict).first;
+        const DICTIONARY_VALUE& phones          = (*it_dict).second;
         unsigned int            n_cells_in_word = 0U;
 
         // Find how many cells in the word.
-        for(auto it_phoneme = word_phones.begin(); it_phoneme != word_phones.end(); it_phoneme ++) {
+        for(auto it_phoneme = phones.begin(); it_phoneme != phones.end(); it_phoneme ++) {
             const string&       phoneme             = (*it_phoneme);
             const bool          is_sp               = strcmp(phoneme.c_str(), "sp") == 0;
             const unsigned int  n_cells_in_phoneme  = is_sp ? 1 : 3;
@@ -84,15 +66,15 @@ void Machine::build_words(void) {
         cout << tab << "N_CELLS_IN_WORD: " << n_cells_in_word << endl;
         cout << tab << "Phones:";
 
-        for(auto it_phoneme = word_phones.begin(); it_phoneme != word_phones.end(); it_phoneme ++) {
+        for(auto it_phoneme = phones.begin(); it_phoneme != phones.end(); it_phoneme ++) {
             const string&       phoneme             = (*it_phoneme);
             const bool          is_sp               = strcmp(phoneme.c_str(), "sp") == 0;
             const unsigned int  n_cells_in_phoneme  = is_sp ? 1 : 3;
             hmmType*            pretrained          = nullptr;
 
             for(auto idx = 0U; idx < N_PHONES; idx ++) {
-                if(strcmp(phones[idx].name, phoneme.c_str()) == 0) {
-                    pretrained = &phones[idx];
+                if(strcmp(pretrained_phones[idx].name, phoneme.c_str()) == 0) {
+                    pretrained = &pretrained_phones[idx];
                     break;
                 }
             }

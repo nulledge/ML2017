@@ -3,10 +3,12 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <cstdlib>
-#include <fstream>
 
-using namespace std;
+#define DICTIONARY_KEY      std::string
+#define DICTIONARY_VALUE    std::vector<std::string>
+#define DICTIONARY_ENTITY   std::pair<DICTIONARY_KEY, DICTIONARY_VALUE >
 
 class Dictionary {
 // Singleeton interface.
@@ -24,17 +26,9 @@ private:
     Dictionary(void);
     ~Dictionary(void);
 
-// Method.
-private:
-    void build(void);
-
 // Member.
 public:
-    vector<pair<string, vector<string> > > _data;
-
-private:
-    static const char * const _path;
-    ifstream _file;
+    std::vector< DICTIONARY_ENTITY > _data;
 };
 
 #endif

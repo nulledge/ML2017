@@ -1,11 +1,11 @@
 #ifndef __unigram_h__
 #define __unigram_h__
 
-#include <cstdlib>
 #include <string>
-#include <vector>
-#include <fstream>
-using namespace std;
+#include <map>
+
+#define UNIGRAM_KEY     std::string
+#define UNIGRAM_VALUE   long double
 
 class Unigram {
 public:
@@ -21,15 +21,8 @@ private:
     Unigram(void);
     ~Unigram(void);
 
-private:
-    void build(void);
-
 public:
-    vector<pair<string, long double> > _data;
-
-private:
-    static const char* const _path;
-    ifstream _file;
+    std::map<UNIGRAM_KEY, UNIGRAM_VALUE> _data;
 };
 
 #endif
