@@ -5,6 +5,7 @@
 #include "bigram.h"
 #include "mfcc.h"
 #include "cell.h"
+#include "machine.h"
 
 #include <ctime>
 #include <iostream>
@@ -29,6 +30,8 @@ int main(void) {
     cout << base + sum * delta << endl;
 
     cout << norm_dist(0, 0, 1) << endl;
+
+    auto machine = Machine::Instance();
 
     return 0;
 }

@@ -14,7 +14,7 @@ public:
 
 public:
     vector<pair<Cell*, long double> > _link;
-    map<const unsigned int, pair<Cell*, long double> > _log;
+    map<unsigned int, pair<Cell*, long double> > _log;
 };
 
 #endif

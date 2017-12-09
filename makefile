@@ -5,8 +5,11 @@ DAT_DIR = dat
 SRC_DIR = src
 BIN_DIR = bin
 
-build: main dictionary unigram bigram mfcc cell
-	$(CPPC) $(BIN_DIR)/main.o $(BIN_DIR)/cell.o $(BIN_DIR)/mfcc.o $(BIN_DIR)/bigram.o $(BIN_DIR)/unigram.o $(BIN_DIR)/dictionary.o -o hmm.out
+build: main dictionary unigram bigram mfcc cell machine
+	$(CPPC) $(BIN_DIR)/main.o $(BIN_DIR)/machine.o $(BIN_DIR)/cell.o $(BIN_DIR)/mfcc.o $(BIN_DIR)/bigram.o $(BIN_DIR)/unigram.o $(BIN_DIR)/dictionary.o -o hmm.out
+
+machine: $(SRC_DIR)/machine.cpp $(INC_DIR)/machine.h $(BIN_DIR)
+	$(CPPC) -c $(SRC_DIR)/machine.cpp -I$(INC_DIR) -o $(BIN_DIR)/machine.o
 
 cell: $(SRC_DIR)/cell.cpp $(INC_DIR)/cell.h $(BIN_DIR)
 	$(CPPC) -c $(SRC_DIR)/cell.cpp -I$(INC_DIR) -o $(BIN_DIR)/cell.o
