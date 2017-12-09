@@ -29,16 +29,13 @@ private:
     ~Machine(void);
 
     void build(void);
-    void build_word(void);
-    pair<Cell*, Cell*> build_phoneme(const string& phoneme);
+    void build_words(void);
+    void build_unigram(void);
 
-private:
-    Cell*           _begin;
-    Cell*           _end;
-    vector<Cell>    _cells;
-    Dictionary*     _dict;
-    Unigram*        _uni;
-    Bigram*         _bi;
+public:
+    unsigned int                        _begin, _end;
+    vector<pair<string, unsigned int> > _word;
+    vector<Cell>                        _cells;
 };
 
 #endif

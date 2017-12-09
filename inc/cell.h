@@ -1,6 +1,8 @@
 #ifndef __cell_h__
 #define __cell_h__
 
+#include "hmm.h"
+
 #include <vector>
 #include <map>
 #include <cstdlib>
@@ -13,8 +15,9 @@ public:
     ~Cell(void);
 
 public:
-    vector<pair<Cell*, long double> > _link;
-    map<unsigned int, pair<Cell*, long double> > _log;
+    stateType*                                          _out;
+    vector<pair<unsigned int, long double> >            _link;
+    map<unsigned int, pair<unsigned int, long double> > _log;
 };
 
 #endif
