@@ -23,9 +23,48 @@ void Machine::build(void) {
 }
 
 void Machine::build_bigram(void) {
+    auto& bi = Bigram::Instance()->_data;
+
+    for(auto it_bi = bi.begin(); it_bi != bi.end(); it_bi ++) {
+        string from, to;
+        long double prob;
+
+        tie(from, to) = (*it_bi).first;
+        prob = (*it_bi).second;
+
+        for(auto from_it = _word.begin(); from_it != _word.end(); from_it ++) {
+            if(strcmp(from.c_str(), get<0>(*from_it).c_str()))
+                continue;
+            
+            for(auto to_it = _word.begin(); to_it != _word.end(); to_it ++) {
+                if(strcmp(to.c_str(), get<0>(*to_it).c_str()))
+                    continue;
+                
+                _cells[get<2>(*from_it)]._link.push_back(make_pair(get<1>(*to_it), prob));
+                //cout << from << get<2>(*from_it) << tab << to << get<1>(*to_it) << tab << prob <<endl;
+            }
+        }
+    }
 }
 
 void Machine::build_unigram(void) {
+    auto& uni = Unigram::Instance()->_data;
+
+    for(auto it_word = _word.begin(); it_word != _word.end(); it_word ++) {
+        string word;
+        unsigned int word_begin, word_end;
+        tie(word, word_begin, word_end) = *it_word;
+
+        //cout << word << tab << word_begin << tab << word_end << endl;
+
+        auto& link = _cells[_begin]._link;
+        for(auto it_link = link.begin(); it_link != link.end(); it_link ++) {
+            const unsigned int& to = (*it_link).first;
+            if(to != word_begin)
+                continue;
+            (*it_link).second = uni[word];
+        }
+    }
 }
 
 void Machine::build_words(void) {
@@ -60,11 +99,11 @@ void Machine::build_words(void) {
         unsigned int        n_cells_done    = 0;
         unsigned int        prev_cell       = _begin;
 
-        _word.push_back(make_pair(word, cell_begin));
+        _word.push_back(make_tuple(word, cell_begin, cell_end - 1));
         
-        cout << "word: " << word << endl;
+        /*cout << "word: " << word << endl;
         cout << tab << "N_CELLS_IN_WORD: " << n_cells_in_word << endl;
-        cout << tab << "Phones:";
+        cout << tab << "Phones:";*/
 
         for(auto it_phoneme = phones.begin(); it_phoneme != phones.end(); it_phoneme ++) {
             const string&       phoneme             = (*it_phoneme);
@@ -78,7 +117,7 @@ void Machine::build_words(void) {
                     break;
                 }
             }
-            cout << " " << pretrained->name;
+            //cout << " " << pretrained->name;
 
             unsigned int    cells_in_phoneme[N_STATE + 2];
 
@@ -108,6 +147,6 @@ void Machine::build_words(void) {
             prev_cell = cells_in_phoneme[n_cells_in_phoneme + 1];
             n_cells_done += n_cells_in_phoneme;
 
-        } cout << endl;
-    } cout << endl;
+        } //cout << endl;
+    } //cout << endl;
 }

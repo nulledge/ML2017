@@ -34,9 +34,9 @@ private:
     void build_bigram(void);
 
 public:
-    unsigned int                        _begin, _end;
-    vector<tuple<string, unsigned int> > _word;
-    vector<Cell>                        _cells;
+    unsigned int                                        _begin, _end;
+    vector<tuple<string, unsigned int, unsigned int> >  _word;
+    vector<Cell>                                        _cells;
 };
 
 #endif

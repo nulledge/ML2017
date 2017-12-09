@@ -19,31 +19,5 @@ int main(void) {
 
     auto machine = Machine::Instance();
 
-    cout << machine->_cells.size() << endl;
-/*
-    for(auto it = machine->_word.begin(); it != machine->_word.end(); it++) {
-        string      word;
-        long double word_begin;
-
-        tie(word, word_begin) = (*it);
-
-        if(strcmp(word.c_str(), "zero"))
-            continue;
-
-        cout << word << tab << word_begin << endl;
-
-        for(auto it_link = machine->_cells[machine->_begin]._link.begin();
-                it_link != machine->_cells[machine->_begin]._link.end();
-                it_link ++) {
-            unsigned int to;
-            long double prob;
-            tie(to, prob) = (*it_link);
-
-            if(to != word_begin)
-                continue;
-            cout << to << tab << prob << endl;
-        }
-    }*/
-
     return 0;
 }
