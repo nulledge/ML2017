@@ -25,6 +25,13 @@ int Machine::is_word_end(const unsigned int cell) const {
     return -1;
 }
 
+void Machine::clear(void) {
+    for(auto it_cell = _cells.begin(); it_cell != _cells.end(); it_cell ++) {
+        auto& cell = *it_cell;
+        cell._log.clear();
+    }
+}
+
 void Machine::build(void) {
     build_words();
     build_unigram();

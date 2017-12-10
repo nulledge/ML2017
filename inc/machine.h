@@ -26,6 +26,7 @@ private:
 
 public:
     int is_word_end(const unsigned int cell) const;
+    void clear(void);
 
 private:
     Machine(void);

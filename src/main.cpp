@@ -15,18 +15,13 @@
 
 using namespace std;
 
-int main(void) {
-    srand(time(NULL));
-    cout << "Hello, World!" << endl;
+int Viterbi(const char* path) {
+    MFCC mfcc(path);
 
     auto machine = Machine::Instance();
     auto& cells = machine->_cells;
 
-    const auto path = "dat/tst/f/ak/z176zz2.txt";
-    MFCC mfcc(path);
-
     cells[machine->_begin]._log[-1] = make_pair(-1, log(1.0));
-    cout << "Calculating..." << endl;
     for(auto step = 0U; step < mfcc._n_block; step ++) {
         //cout << "step: " << step << endl;
         //for(auto it_cell = cells.begin(); it_cell != cells.end(); it_cell ++) {
@@ -44,12 +39,7 @@ int main(void) {
                 auto trans = link.second;
 
                 long double next_prob = prev_prob + log(trans) + (next == machine->_end ? 0 : cells[next].observe(&mfcc, step));
-                if(isnan(next_prob) ){
-                    cout << "step: " << step << endl;
-                    cout << "from: " << it_cell << tab << "to: " << next << endl;
-                    cout << "prob: " << prev_prob << tab << next_prob << endl;
-                    cout << "log(trans): " << log(trans) << endl;
-                    cout << "observe: " << cells[next].observe(&mfcc, step) << endl;
+                if(isnan(next_prob)){
                     return 1;
                 }
 
@@ -61,44 +51,34 @@ int main(void) {
         }
     }
     const char* ref = "_8549o17632zz";
+    stringstream buffer("");
     
-    cout << "path: " << path << endl;
-    cout << "pred: ";
     int marker = machine->_end;
     for(int step = mfcc._n_block - 1; step >= 0; step --) {
         auto prev = cells[marker]._log[step].first;
         
-        if(machine->is_word_end(prev) >= 0 and machine->is_word_end(marker) == -1) {
-            cout << ref[machine->is_word_end(prev)];
+        if(machine->is_word_end(prev) >= 1 and machine->is_word_end(marker) == -1) {
+            buffer << ref[machine->is_word_end(prev)];
         }
 
         marker = prev;
-    }cout << endl;
-
-/*    auto machine = Machine::Instance();
-    auto& cells = machine->_cells;
-
-    {
-        auto& link = cells[2]._link;
-        for(auto it_link = link.begin(); it_link != link.end(); it_link ++) {
-            unsigned int to;
-            long double prob;
-            tie(to, prob) = *it_link;
-            cout << to << tab << prob << endl;
-        }
     }
 
-    {
-        const char* const path = "dat/tst/f/ak/44z5938.txt";
-        MFCC mfcc(path);
-        auto n_cells = cells.size();
+    string str = buffer.str();
+    cout << "path: " << path << endl;
+    cout << "pred: ";
+    for(int idx = (str.size() - 1 > 6 ? 6 : str.size() - 1); idx >= 0; idx --)
+        cout << str[idx];
+    cout << endl;
 
-        for(auto step = 0U; step < mfcc->_n_block; step ++) {
-            for(auto it_cell = cells.begin(); it_cell != cells.end(); it_cell ++) {
-                Cell& cell
-            }
-        }
-    }*/
+    machine->clear();
+
+    return 0;
+}
+
+int main(void) {
+    Viterbi("dat/tst/m/ah/3o33951.txt");
+    Viterbi("dat/tst/f/ap/4241866.txt");
 
     return 0;
 }
