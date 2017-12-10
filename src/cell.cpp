@@ -18,7 +18,7 @@ long double Cell::observe(const MFCC* mfcc, const unsigned int step) {
             
             inter += weight * norm_dist(observed[it_dim], mean, var);
         }
-        result *= inter;
+        result += log(inter);
     }
     return result;
 }

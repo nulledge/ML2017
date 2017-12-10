@@ -18,9 +18,9 @@ public:
     long double observe(const MFCC* mfcc, const unsigned int step);
 
 public:
-    stateType*                                          _out;
-    vector<pair<unsigned int, long double> >            _link;
-    map<unsigned int, pair<unsigned int, long double> > _log;
+    stateType*                          _out;
+    vector<pair<int, long double> >     _link;
+    map<int, pair<int, long double> >   _log;
 };
 
 #endif
