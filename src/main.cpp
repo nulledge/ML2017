@@ -12,10 +12,11 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
+#include <dirent.h>
 
 using namespace std;
 
-int Viterbi(const char* path) {
+int Viterbi(const char* path, ostream& out) {
     MFCC mfcc(path);
 
     auto machine = Machine::Instance();
@@ -50,26 +51,25 @@ int Viterbi(const char* path) {
             }
         }
     }
-    const char* ref = "_8549o17632zz";
-    stringstream buffer("");
+    /*const char* ref = "_8549o17632zz";
+    stringstream buffer("");*/
+    vector<string> buffer;
     
     int marker = machine->_end;
     for(int step = mfcc._n_block - 1; step >= 0; step --) {
         auto prev = cells[marker]._log[step].first;
         
         if(machine->is_word_end(prev) >= 1 and machine->is_word_end(marker) == -1) {
-            buffer << ref[machine->is_word_end(prev)];
+            buffer.push_back(get<0>(machine->_word[machine->is_word_end(prev)]));
         }
 
         marker = prev;
     }
 
-    string str = buffer.str();
-    cout << "path: " << path << endl;
-    cout << "pred: ";
-    for(int idx = (str.size() - 1 > 6 ? 6 : str.size() - 1); idx >= 0; idx --)
-        cout << str[idx];
-    cout << endl;
+    
+    for(int idx = (buffer.size() - 1 > 6 ? 6 : buffer.size() - 1); idx >= 0; idx --)
+        out << buffer[idx] << endl;
+    out << "." << endl;
 
     machine->clear();
 
@@ -77,8 +77,52 @@ int Viterbi(const char* path) {
 }
 
 int main(void) {
-    Viterbi("dat/tst/m/ah/3o33951.txt");
-    Viterbi("dat/tst/f/ap/4241866.txt");
+
+    ofstream rec("recognized.txt");
+    
+    rec << "#!MLF!#" << endl;
+
+    dirent* dir         = nullptr;
+
+    string  tst_path    = "dat/tst/";
+    auto*   tst_dir     = opendir(tst_path.c_str());
+
+    while((dir = readdir(tst_dir)) != NULL) {
+        if(strcmp(dir->d_name, ".") == 0
+            || strcmp(dir->d_name, "..") == 0)
+            continue;
+
+        string  gen_path    = tst_path + string(dir->d_name) + string("/");
+        auto*   gen_dir     = opendir(gen_path.c_str());
+
+        while((dir = readdir(gen_dir)) != NULL) {
+            if(strcmp(dir->d_name, ".") == 0
+                || strcmp(dir->d_name, "..") == 0)
+                continue;
+
+            string  par_path    = gen_path + string(dir->d_name) + string("/");
+            auto*   par_dir     = opendir(par_path.c_str());
+
+            while((dir = readdir(par_dir)) != NULL) {
+                if(strcmp(dir->d_name, ".") == 0
+                    || strcmp(dir->d_name, "..") == 0)
+                    continue;
+
+                string  mfcc_path   = par_path + string(dir->d_name);
+                //cout << mfcc_path << endl;
+                rec << "\"" << mfcc_path.substr(4, 17) << "rec" <<  "\"" << endl;
+                Viterbi(mfcc_path.c_str(), rec);
+            }
+
+            closedir(par_dir);
+        }
+        
+        closedir(gen_dir);
+    }
+
+    closedir(tst_dir);
+
+    rec.close();
 
     return 0;
 }
