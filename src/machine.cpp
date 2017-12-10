@@ -55,7 +55,7 @@ void Machine::build_unigram(void) {
         unsigned int word_begin, word_end;
         tie(word, word_begin, word_end) = *it_word;
 
-        //cout << word << tab << word_begin << tab << word_end << endl;
+        cout << word << tab << word_begin << tab << word_end << endl;
 
         auto& link = _cells[_begin]._link;
         for(auto it_link = link.begin(); it_link != link.end(); it_link ++) {
@@ -132,7 +132,7 @@ void Machine::build_words(void) {
                 : cell_begin + n_cells_done + n_cells_in_phoneme;
 
             for(auto from = 0U; from < N_STATE + 2; from ++) {
-                for(auto to = from; to < N_STATE + 2; to ++) {
+                for(auto to = 0U; to < N_STATE + 2; to ++) {
                     if(pretrained->tp[from][to] == 0.0f)
                         continue;
 

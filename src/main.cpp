@@ -18,6 +18,17 @@ int main(void) {
     cout << "Hello, World!" << endl;
 
     auto machine = Machine::Instance();
+    auto& cells = machine->_cells;
+
+    {
+        auto& link = cells[4]._link;
+        for(auto it_link = link.begin(); it_link != link.end(); it_link ++) {
+            unsigned int to;
+            long double prob;
+            tie(to, prob) = *it_link;
+            cout << to << tab << prob << endl;
+        }
+    }
 
     return 0;
 }
