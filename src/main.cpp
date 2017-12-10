@@ -109,7 +109,7 @@ int main(void) {
                     continue;
 
                 string  mfcc_path   = par_path + string(dir->d_name);
-                //cout << mfcc_path << endl;
+                cout << mfcc_path << endl;
                 rec << "\"" << mfcc_path.substr(4, 17) << "rec" <<  "\"" << endl;
                 Viterbi(mfcc_path.c_str(), rec);
             }
