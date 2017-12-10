@@ -2,6 +2,7 @@
 #define __cell_h__
 
 #include "hmm.h"
+#include "mfcc.h"
 
 #include <vector>
 #include <map>
@@ -13,6 +14,8 @@ class Cell {
 public:
     Cell(void);
     ~Cell(void);
+
+    long double observe(const MFCC* mfcc, const unsigned int step);
 
 public:
     stateType*                                          _out;
