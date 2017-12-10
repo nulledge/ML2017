@@ -16,6 +16,15 @@ Machine::~Machine(void) {
 
 }
 
+
+int Machine::is_word_end(const unsigned int cell) const {
+    for(auto it_word = 0; it_word != _word.size(); it_word ++) {
+        if(get<2>(_word[it_word]) == cell)
+            return it_word;
+    }
+    return -1;
+}
+
 void Machine::build(void) {
     build_words();
     build_unigram();
@@ -55,7 +64,7 @@ void Machine::build_unigram(void) {
         unsigned int word_begin, word_end;
         tie(word, word_begin, word_end) = *it_word;
 
-        cout << word << tab << word_begin << tab << word_end << endl;
+        //cout << word << tab << word_begin << tab << word_end << endl;
 
         auto& link = _cells[_begin]._link;
         for(auto it_link = link.begin(); it_link != link.end(); it_link ++) {

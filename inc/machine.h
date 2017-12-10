@@ -24,6 +24,9 @@ public:
 private:
     static Machine* _instance;
 
+public:
+    int is_word_end(const unsigned int cell) const;
+
 private:
     Machine(void);
     ~Machine(void);

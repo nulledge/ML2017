@@ -22,12 +22,13 @@ int main(void) {
     auto machine = Machine::Instance();
     auto& cells = machine->_cells;
 
-    const auto path = "dat/tst/f/ak/44z5938.txt";
+    const auto path = "dat/tst/f/ak/z176zz2.txt";
     MFCC mfcc(path);
 
     cells[machine->_begin]._log[-1] = make_pair(-1, log(1.0));
+    cout << "Calculating..." << endl;
     for(auto step = 0U; step < mfcc._n_block; step ++) {
-        cout << "step: " << step << endl;
+        //cout << "step: " << step << endl;
         //for(auto it_cell = cells.begin(); it_cell != cells.end(); it_cell ++) {
         for(auto it_cell = 0U; it_cell < cells.size(); it_cell ++) {
             auto& cell = cells[it_cell];
@@ -52,18 +53,27 @@ int main(void) {
                     return 1;
                 }
 
-                if(cells[next]._log.find(step) == cells[next]._log.end()) {
-                    cells[next]._log[step] = make_pair(it_cell, next_prob);
-                }
-                else if(cells[next]._log[step].second < next_prob) {
+                if(cells[next]._log.find(step) == cells[next]._log.end()
+                    || cells[next]._log[step].second < next_prob) {
                     cells[next]._log[step] = make_pair(it_cell, next_prob);
                 }
             }
         }
     }
+    const char* ref = "_8549o17632zz";
+    
+    cout << "path: " << path << endl;
+    cout << "pred: ";
+    int marker = machine->_end;
+    for(int step = mfcc._n_block - 1; step >= 0; step --) {
+        auto prev = cells[marker]._log[step].first;
+        
+        if(machine->is_word_end(prev) >= 0 and machine->is_word_end(marker) == -1) {
+            cout << ref[machine->is_word_end(prev)];
+        }
 
-    cout << cells[machine->_end]._log[mfcc._n_block - 1].first << endl;
-    cout << cells[machine->_end]._log[mfcc._n_block - 1].second << endl;
+        marker = prev;
+    }cout << endl;
 
 /*    auto machine = Machine::Instance();
     auto& cells = machine->_cells;
